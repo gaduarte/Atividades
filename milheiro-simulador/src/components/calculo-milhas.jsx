@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function CalcularMilheiroReal({ onCalculated, onBackToHome }) {
-  const [valorPadraoMilheiro, setValorPadraoMilheiro] = useState(70); // Valor padrão do milheiro
+  const [valorPadraoMilheiro, setValorPadraoMilheiro] = useState(70);
   const [desconto, setDesconto] = useState(40); 
   const [bonus, setBonus] = useState(200); 
   const [milhasComprar, setMilhasComprar] = useState(1000);
