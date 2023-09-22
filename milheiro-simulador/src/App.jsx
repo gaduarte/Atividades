@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './css/App.css'
 import CalcularMilheiroReal from './components/calculo-milhas';
 
 export default function App() {
