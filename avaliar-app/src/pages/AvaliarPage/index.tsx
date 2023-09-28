@@ -11,7 +11,7 @@ export interface Avaliar {
     autor: string
     like: number
     dislike: number
-    votoAtual: 'like' | 'dislike'
+    votoAtual: 'like' | 'dislike' | 'none'
 }
 
 export function AvaliarPage(){
@@ -26,10 +26,11 @@ export function AvaliarPage(){
             autor: autor,
             like: 0,
             dislike: 0,
-            votoAtual: 'none'
+            votoAtual: 'none' as 'none'
         }
         setAvaliacao([new_avaliacao, ...avaliacoes])
     }
+
     const handleRemoveAvaliacao = (avaliar: Avaliar) => {
         const filtradas = avaliacoes.filter(t => t.id !== avaliar.id)
         setAvaliacao(filtradas)
@@ -41,7 +42,7 @@ export function AvaliarPage(){
                     return{
                         ...item,
                         like: item.like + 1,
-                        votoAtual: 'like'
+                        votoAtual: 'like' as 'like'
                     }
                 
 
