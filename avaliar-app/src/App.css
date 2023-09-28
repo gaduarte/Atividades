@@ -1,0 +1,165 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.title {
+  font-size: 36px; 
+  font-weight: bold;
+  text-transform: uppercase; 
+  padding: 20px 0;
+  color: #ffffff;
+}
+
+.cadastrados{
+  font-weight: lighter;
+  margin-bottom: 10px;
+}
+
+main {
+  margin-top: 60px; 
+  padding-top: 20px;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #C75A2E; 
+  color: #fff; 
+  text-align: center;
+  padding: 10px 0; 
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #C75A2E; 
+  color: #fff; 
+  text-align: center;
+  padding: 10px 0;
+}
+
+
+input[type="text"] {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 100%;
+}
+
+input[type="submit"] {
+  background-color: #10C7AB;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #6AC738;
+}
+
+.text-container {
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  font-family: Arial, Helvetica, sans-serif;
+  margin-right: 10px; 
+}
+
+.autor {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-style: italic;
+}
+
+.icon-button {
+  margin: 0 5px; 
+}
+
+
+.progress-bar {
+  display: flex;
+  flex-direction: row; 
+  margin-top: 5px;
+  justify-content: space-between; 
+}
+
+.like-progress,
+.dislike-progress {
+  height: 30px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1; 
+}
+
+.like-progress {
+  background-color: #4caf50; 
+}
+
+.dislike-progress {
+  background-color: #f44336; 
+}
+
+
+
+
+
