@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar</title>
+    <link rel="stylesheet" media="(max-width:1500px)" href="./css/style.css">
+</head>
+<body class="color-page">
+    <main>
+        <header>
+            <nav class="sidebar-menu" style="display: none;" id="sidebar" >
+                <ul style="width: 100%;">
+                    <li><a href="">Link de Ação</a></li>
+                    <li><a href="">Link de Ação</a></li>
+                    <li><a href="">Link de Ação</a></li>
+                    <li><a href="">Link de Ação</a></li>
+                </ul>
+                <span onclick="closeSidebar()"><button class="sidebar-botao">Sair</button></span>
+            </nav>
+
+            <div>
+                <span onclick="openSidebar()" class="sidebar">&#9776;</span>
+            </div>
+        </header>
+        
+        <section id="img-player">
+            <fieldset>
+                <div class="play">
+                    &#9654;
+                </div> 
+            </fieldset>
+        </section>
+    </main>
+    
+    <script>
+        function openSidebar(){
+            document.getElementById("sidebar").style.display = "block";
+        }
+
+        function closeSidebar(){
+            document.getElementById("sidebar").style.display = "none";
+        }
+    </script>
+</body>
+</html>

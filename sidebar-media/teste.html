@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Suspenso</title>
+    <style>
+        /* Estilize o botão do menu como um ícone, por exemplo, usando uma classe CSS */
+        .menu-icon {
+            cursor: pointer;
+        }
+
+        /* Estilize o menu suspenso para escondê-lo inicialmente */
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        /* Estilize os itens do menu */
+        .menu-dropdown a {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            color: #333;
+        }
+
+        /* Quando o mouse passar sobre o botão do menu, exiba o menu suspenso */
+        .menu-icon:hover + .menu-dropdown {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Crie o botão do menu com um ícone -->
+    <span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+    
+    <!-- Crie o menu suspenso -->
+    <div class="menu-dropdown" id="menuDropdown">
+        <a href="#">Opção 1</a>
+        <a href="#">Opção 2</a>
+        <a href="#">Opção 3</a>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menuDropdown = document.getElementById("menuDropdown");
+            if (menuDropdown.style.display === "block") {
+                menuDropdown.style.display = "none";
+            } else {
+                menuDropdown.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

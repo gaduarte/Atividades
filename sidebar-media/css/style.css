@@ -1,0 +1,177 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 100px;
+    background-color: #fff;
+    top: 0;
+}
+
+ nav{
+        display: flex;
+        margin-top: 4px;
+        margin-bottom: 50px;
+        right: 30px;
+        background-color: #5194db;
+    }
+
+
+nav span{
+    cursor: pointer;
+    margin-left: 15%;
+}
+
+nav ul{
+         display: flex;
+         flex-direction: column;
+}
+
+nav ul li{
+    padding: 2px;
+    margin: 2.7em;
+    font-size: 1.5em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+nav ul li a{
+    color: #EB4226;
+}
+
+nav ul li a:hover{
+    color: #9E1700;
+}
+
+.sidebar-botao{
+    border-radius: 10px;
+    width: 60%;
+    margin-left: 6%;
+    margin-bottom: 10%;
+    background-color: #0D9E5F;
+    border-style:none;
+    cursor: pointer;
+}
+
+.sidebar-botao:hover{
+    background-color: #26EB95;
+}
+
+#img-player{
+    width: 75%;
+    float: left;
+    position: relative;
+    
+}
+
+#img-player fieldset{
+    width: 40%;
+    border: 1px solid #b13030;
+    margin-left: 40%;
+    padding: 10%;
+    float: left;
+    margin-top: 10px;
+    min-height: 300px;
+}
+
+.play{
+  width: 80px;
+  height: 80px;
+  background-color: #5194db;
+  border-radius: 50%;
+  margin-top: 100px;
+  margin-left: 192px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 24px; 
+  color: #fff; 
+}
+
+@media (max-width: 991px) {
+    nav {
+        width: 200px;
+    }
+
+    nav ul li {
+        font-size: 1.1em; 
+        padding: 0;
+    }
+
+    .sidebar-botao {
+        width: 40%; 
+        margin-left: 10%;
+        margin-bottom: 5px; 
+    }
+
+    #img-player fieldset {
+        width: 40%; 
+    }
+
+    .play{
+        margin-top: 100px;
+        margin-left: 80px;
+    }
+
+}
+
+
+
+@media (min-width: 100px) and (max-width: 700px) {
+    nav span{
+        cursor: pointer;
+        margin-left: 8%;
+        color: #b13030;
+    }
+
+    nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    nav.show {
+        left: 0;
+    }
+
+    nav ul {
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-end;
+        list-style: none;
+    }
+
+    nav ul li {
+        margin-right: 10px;
+        margin-top: 2px;
+        margin-bottom: 0;
+        font-size: 11px;
+    }
+
+    .sidebar-botao {
+        width: 40%;
+        margin-top: 15px;
+        margin-left: 20%;
+    }
+
+    #img-player fieldset {
+        width: 100%;
+        margin-top: -60px;
+        margin-left: 18px;
+    }
+
+    .play{
+        margin-top: 90px;
+        margin-left: 130px;
+    }
+}
+
