@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useReducer, useEffect } from 'react';
 import { ulid } from 'ulidx';
 import { AvaliarForm } from './components/AvaliarForm';
 import { AvaliarList } from './components/AvaliarList';
 import styles from './AvaliarPage.module.css'
+import { ActionType, AvaliarState, avaliarStateReducer } from '../../reducers/avaliar_reducer';
+import { deleteAvaliacao, fetchAllAvaliacoes, postNewAvaliacao, updateLikesDislikes } from '../../services/api';
+import 'source-map-support/register';
 
 export interface Avaliar {
     id: string
@@ -15,8 +18,19 @@ export interface Avaliar {
 }
 
 export function AvaliarPage(){
-    const [avaliacoes, setAvaliacao] = useState<Avaliar[]>([])
+    const initialState: AvaliarState = {
+        avaliacoes: []
+    }
+   
+    const [state, dispatch] = useReducer(avaliarStateReducer, initialState);
 
+    useEffect(()=>{
+        const loadAvaliacoes = async ()=>{
+            const avaliacoes = await fetchAllAvaliacoes()
+            dispatch({type: ActionType.Loaded, payload: {avaliacoes}})
+        }
+        loadAvaliacoes()
+    }, [])
 
     const handleAddAvaliacao = (text: string, autor: string) => {
         const new_avaliacao = {
@@ -28,52 +42,47 @@ export function AvaliarPage(){
             dislike: 0,
             votoAtual: 'none' as 'none'
         }
-        setAvaliacao([new_avaliacao, ...avaliacoes])
+        
+        const postAvaliacao = async()=>{
+            dispatch({
+                type: ActionType.Added,
+                payload: {avaliar: await postNewAvaliacao(new_avaliacao)}
+            })
+        }
+        postAvaliacao();
     }
 
-    const handleRemoveAvaliacao = (avaliar: Avaliar) => {
-        const filtradas = avaliacoes.filter(t => t.id !== avaliar.id)
-        setAvaliacao(filtradas)
+    const handleRemoveAvaliacao = async ({id}: Avaliar) => {
+        await deleteAvaliacao(id);
+
+        dispatch({type: ActionType.Deleted, payload: {id}})
     }
 
     const handleLikeAvaliacao = (avaliar: Avaliar) => {
-        const updatedAvaliacoes = avaliacoes.map(item => {
-            if (item.id === avaliar.id) {
-                    return{
-                        ...item,
-                        like: item.like + 1,
-                        votoAtual: 'like' as 'like'
-                    }
-                
-
-            }
-            return item;
-        });
-
-        setAvaliacao(updatedAvaliacoes);
-    }
-
-    const handleDislikeAvaliacao = (avaliar: Avaliar) => {
-        const updatedAvaliacoes = avaliacoes.map(item => {
-            if (item.id === avaliar.id) {
-                return {
-                    ...item,
-                    dislike: item.dislike + 1 
-                };
-            }
-            return item;
-        });
-
-        setAvaliacao(updatedAvaliacoes);
-    }
-
-
+        try {
+          updateLikesDislikes(avaliar.id, 'like');
+          dispatch({ type: ActionType.UpdatedLike, payload: { id: avaliar.id } });
+        } catch (error) {
+          console.error("Erro ao curtir a avaliação:", error);
+        }
+      };
+      
+      const handleDislikeAvaliacao =  (avaliar: Avaliar) => {
+        try {
+          updateLikesDislikes(avaliar.id, 'dislike');
+          dispatch({ type: ActionType.UpdatedDislike, payload: { id: avaliar.id } });
+        } catch (error) {
+          console.error("Erro ao curtir a avaliação:", error);
+        }
+      }
+       
     return(
         <div className={styles.container}>
             <div className={styles.root}>
                 <AvaliarForm onAdd={handleAddAvaliacao} />
-                <AvaliarList avaliacao={avaliacoes} onRemove={handleRemoveAvaliacao}
-                onLike={handleLikeAvaliacao} onDislike={handleDislikeAvaliacao} />
+                <AvaliarList avaliacao={state.avaliacoes} onRemove={handleRemoveAvaliacao}
+                onLike={handleLikeAvaliacao} onDislike={handleDislikeAvaliacao}
+                />
             </div>
         </div>
     )

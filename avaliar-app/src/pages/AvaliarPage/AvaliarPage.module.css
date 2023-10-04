@@ -29,13 +29,22 @@
   }
 
   .container {
-    background-color: #C71AC7; 
+    background-color: #a310a3; 
     border: 1px solid #fff; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     display: flex;
     flex-direction: column; 
     overflow-y: auto;
     max-height: 70vh; 
+  }
+
+  @media(max-width: 400px){
+    .container {
+      display: flex;
+      flex-direction: row; 
+      overflow-y: auto;
+      max-height: 50vh; 
+    }
   }
 
  

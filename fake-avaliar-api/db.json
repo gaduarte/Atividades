@@ -1,0 +1,49 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "avaliacoes": [
+    {
+      "id": "ASVGTHNKOA",
+      "created_at": "2023-10-04",
+      "name": "Uma frase 01",
+      "autor": "Autor01",
+      "like": 5,
+      "dislike": 2,
+      "votoAtual": "none"
+    },
+    {
+      "id": "01HBXF4X8F1EN46B17ND6RZYJW",
+      "created_at": "2023-10-04T13:48:28.303Z",
+      "name": "Segunad Frase",
+      "autor": "autor2",
+      "like": 12,
+      "dislike": 14,
+      "votoAtual": "none"
+    },
+    {
+      "id": "01HBXRSRA7TNK3ZXYGMSQDYPZC",
+      "created_at": "2023-10-04T16:37:08.551Z",
+      "name": "teste-quant",
+      "autor": "aut3",
+      "like": 65,
+      "dislike": 12,
+      "votoAtual": "none"
+    }
+  ]
+}
+
