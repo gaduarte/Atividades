@@ -1,10 +1,11 @@
-import { useReducer, useEffect } from 'react';
+import { useEffect } from 'react';
 import { ulid } from 'ulidx';
 import { AvaliarForm } from './components/AvaliarForm';
 import { AvaliarList } from './components/AvaliarList';
 import styles from './AvaliarPage.module.css'
-import { ActionType, AvaliarState, avaliarStateReducer } from '../../reducers/avaliar_reducer';
+import { ActionType} from '../../reducers/avaliar_reducer';
 import { deleteAvaliacao, fetchAllAvaliacoes, postNewAvaliacao, updateLikesDislikes } from '../../services/api';
+import { useAvaliacoes, useAvaliacaoDispatch} from '../../context/AvaliarContext';
 import 'source-map-support/register';
 
 export interface Avaliar {
@@ -18,15 +19,17 @@ export interface Avaliar {
 }
 
 export function AvaliarPage(){
-    const initialState: AvaliarState = {
-        avaliacoes: []
-    }
    
-    const [state, dispatch] = useReducer(avaliarStateReducer, initialState);
+    const state = useAvaliacoes();
+    const dispatch = useAvaliacaoDispatch();
+
+    if (state === undefined || dispatch === undefined) {
+        throw new Error('AvaliacaoContext or AvaliacaoDispatchContext is undefined');
+      }
 
     useEffect(()=>{
         const loadAvaliacoes = async ()=>{
-            const avaliacoes = await fetchAllAvaliacoes()
+            const avaliacoes = await fetchAllAvaliacoes();
             dispatch({type: ActionType.Loaded, payload: {avaliacoes}})
         }
         loadAvaliacoes()

@@ -1,4 +1,5 @@
 import './App.css'
+import { AvaliacaoProvider } from './context/AvaliarContext';
 import { AvaliarPage } from './pages/AvaliarPage'
 
 function App() {
@@ -8,7 +9,10 @@ function App() {
         <header className="title">App de Avaliação</header>
         </nav>
       <main>
-        <AvaliarPage />
+        <AvaliacaoProvider>
+          <AvaliarPage />
+        </AvaliacaoProvider>
+        
       </main>
       <footer>
         @Like/Dislike
