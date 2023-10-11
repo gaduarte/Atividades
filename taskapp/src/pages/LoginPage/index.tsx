@@ -1,32 +1,33 @@
-import React, { useRef } from "react"
-import { Navigate } from "react-router-dom"
-import { useAuth } from "../../contexts/AuthContext"
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
-interface LoginPagePros {
-  next?: string
+interface LoginPageProps {
+  next?: string;
 }
 
-export function LoginPage({ next = '/' }: LoginPagePros) {
-
-  const { signin, isAuthenticated } = useAuth()
+export function LoginPage({ next = '/tasks' }: LoginPageProps) {
+  const { signin, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   if (isAuthenticated) {
-    return <Navigate to={next} />
+    navigate(next);
   }
 
-  const usernameInputRef = useRef<HTMLInputElement>(null)
-  const passwordInputRef = useRef<HTMLInputElement>(null)
+  const usernameInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
 
   const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const username = usernameInputRef.current!.value
-    const password = passwordInputRef.current!.value
+    event.preventDefault();
+    const username = usernameInputRef.current!.value;
+    const password = passwordInputRef.current!.value;
 
-    if (username !== 'usuario' || password !== '123456') {
-      alert('Usuário e/ou senha incorretos!')
+    if (username !== 'user1' || password !== '123') {
+      alert('Usuário e/ou senha incorretos!');
+    } else {
+      signin({ username });
+      navigate(next);
     }
-
-    signin({ username })
   }
 
   return (
@@ -35,8 +36,8 @@ export function LoginPage({ next = '/' }: LoginPagePros) {
       <form onSubmit={handleLoginSubmit}>
         <input type="text" placeholder="username" ref={usernameInputRef} />
         <input type="password" placeholder="senha" ref={passwordInputRef} />
-        <input type="submit" value="Entrar..." />
+        <button type="submit">Entrar</button>
       </form>
     </main>
-  )
+  );
 }
