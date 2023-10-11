@@ -6,7 +6,7 @@ import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
 import { NotFoundPage } from './pages/NotFound'
 import { TasksPage } from './pages/TasksPages'
-import { Route, Routes, BrowserRouter, Browse } from 'react-router-dom';
+import { Route, Routes, BrowserRouter} from 'react-router-dom';
 import { TaskPage } from './pages/TaskPage'
 
 function App() {
@@ -28,11 +28,16 @@ const authBlock = useMemo(() => {
         </header>
 
         <Routes>
-          <Route path='/' element={<HomePage/>}></Route>
-          <Route path='/login' element={<LoginPage />}></Route>
-          <Route path='/sobre' element={<TaskPage/>}></Route>
-          <Route path='/tasks' element={<TasksPage />}></Route>
-        </Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/sobre" element={<TaskPage />} />
+        <Route path="/tasks/*" element={<TasksPage />}>
+          <Route index element={<TasksPage />} />
+          <Route path="detail-task/:taskId" element={<TaskPage />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+
 
         <footer>
           <p>@TaskApp</p>
