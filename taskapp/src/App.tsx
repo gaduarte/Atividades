@@ -6,11 +6,9 @@ import { HomePage } from './pages/HomePage'
 import { LoginPage } from './pages/LoginPage'
 import { NotFoundPage } from './pages/NotFound'
 import { TasksPage } from './pages/TasksPages'
-import { Route, Routes, BrowserRouter, NavLink, createBrowserRouter, RouterProvider} from 'react-router-dom';
+import { Route, Routes, BrowserRouter, NavLink} from 'react-router-dom';
 import { TaskPage } from './pages/TaskPage'
 import { ProtectedRoute } from './components/ProtectedRoute'
-import { Root } from './routes/root'
-import { createRoot } from 'react-dom/client'
 
 
 function App() {
@@ -25,52 +23,36 @@ const authBlock = useMemo(() => {
         : <p>Olá Visitante!</p>)
   }, [isAuthenticated])
 
-const router = createBrowserRouter([{
-  path: '/',
-  element: <Root/>,
-  errorElement: <NotFoundPage />,
-},
-{
-  path: '/login',
-  element: <LoginPage />
-},
-{
-  path: '/sobre',
-  element: <TaskPage />
-},
-{
-  path: '/tasks',
-  element: <ProtectedRoute><TasksPage/></ProtectedRoute>
-},
-{
-  path: '/tasks/:id',
-  element: <ProtectedRoute><TaskPage/></ProtectedRoute>
+return(
+  <div>
+    <BrowserRouter>
+      <header>
+        <h1>Task App</h1>
+        <span>{authBlock}</span>
+      <nav>
+        <ul>
+          <li><NavLink to="/">Home</NavLink></li>
+          <li><NavLink to="/tasks">Tasks</NavLink></li>
+          <li><NavLink to="/login">Login</NavLink></li>
+        </ul>
+      </nav>
+      </header>
+
+      <Routes>
+        <Route path='/' element={<HomePage/>}/>
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/tasks'>
+          <Route index element={<ProtectedRoute><TasksPage/></ProtectedRoute>} />  
+          <Route path=':id' element={<ProtectedRoute><TaskPage/></ProtectedRoute>} />
+        </Route>
+        <Route path='*' element={<NotFoundPage/>} /> 
+      </Routes>
+
+      <footer>
+        <p>@TasksApp</p>
+      </footer>
+    </BrowserRouter>
+  </div>
+)
 }
-]);
-
-const rootElement = document.getElementById('root');
-if(rootElement){
-  const root = createRoot(rootElement);
-  root.render(
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  )
-}
-
-  return (
-    <div>
-        <header>
-          <h1>Task App</h1>
-          <p>{authBlock}</p>
-          
-        </header>
-
-        <footer>
-          <p>@TaskApp</p>
-        </footer>
-    </div>
-  )
-}
-
 export default App

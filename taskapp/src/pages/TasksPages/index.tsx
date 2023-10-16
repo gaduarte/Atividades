@@ -3,6 +3,7 @@ import { ulid } from 'ulidx'
 import { ActionType, TaskReducer } from '../../reducers/task_reducer'
 import { TaskForm } from './components/TaskForm'
 import { TaskList } from './components/TaskList'
+import api from '../../services/api'
 
 export interface Task {
     id: string
@@ -17,10 +18,13 @@ export function TasksPage() {
     const [{ tasks }, dispatch] = useReducer(TaskReducer, { tasks: [] })
   
     useEffect(() => {
-      fetch('http://localhost:3000/tasks')
-        .then(response => response.json())
+      api.get('/tasks')
+        .then(response => response.data)
         .then(data => {
           dispatch({ type: ActionType.LOADED, payload: { tasks: data } })
+        })
+        .catch((error)=>{
+          console.error('Erro ao carregar tarefas: ', error);
         })
     }, [])
   
@@ -35,28 +39,34 @@ export function TasksPage() {
         done: false
       };
   
-      const init = {
-        method: 'POST',
-        body: JSON.stringify(task),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-      fetch('http://localhost:3000/tasks', init)
-        .then(response => {
-          if (response.ok) {
-            dispatch({ type: ActionType.ADDED, payload: { task } })
-          }
-        })
+      api.post('/tasks', task)
+      .then((response)=>{
+        dispatch({type: ActionType.ADDED, payload:{task:response.data}})
+      })
+      .catch((error)=>{
+        console.error('Erro ao adicionar task: ', error)
+      })
   
     }
   
     const handleRemoveTask = (task: Task) => {
-      dispatch({ type: ActionType.REMOVED, payload: { id: task.id } })
+      api.delete(`/tasks/${task.id}`)
+      .then(()=>{
+        dispatch({ type: ActionType.REMOVED, payload: { id: task.id } })
+      })
+      .catch((error)=>{
+        console.error('Erro ao remover task', error);
+      })
     }
   
     const handleSaveTask = (task: Task) => {
-      dispatch({ type: ActionType.UPDATED, payload: { task } })
+      api.put(`/tasks/${task.id}`, task)
+      .then(()=>{
+        dispatch({ type: ActionType.UPDATED, payload: { task } })
+      })
+      .catch((error)=>{
+        console.error('Erro ao atualizar task', error)
+      })
     }
   
     console.log('Page renderizada!')

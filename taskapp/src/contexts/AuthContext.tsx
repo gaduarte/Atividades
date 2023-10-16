@@ -1,47 +1,98 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useState } from "react";
+import api from "../services/api";
 
 type User = {
-  username: string
+  username: string;
+};
+
+interface AuthState {
+  token: string;
+  user: User;
+}
+
+interface SignInCredentials {
+  username: string;
+  password: string;
 }
 
 interface AuthContextType {
-  user: User | null
-  signin: (user: User) => void
-  signout: () => void
-  isAuthenticated: boolean
+  user: User | null | undefined;
+  signin: (credentials: SignInCredentials) => Promise<void>;
+  signout: () => void;
+  updateUser: (user: User) => void;
+  isAuthenticated: boolean;
 }
 
-const defaultValue = {} as AuthContextType
+const defaultValue: AuthContextType = {
+  user: null,
+  signin: async () => {},
+  signout: () => {},
+  updateUser: () => {},
+  isAuthenticated: false,
+};
 
-const AuthContext = createContext<AuthContextType>(defaultValue)
+const AuthContext = createContext<AuthContextType>(defaultValue);
 
 interface AuthProviderProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null)
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<AuthState | null>(() => {
+    const token = localStorage.getItem("@TaskApp:token");
+    const user = localStorage.getItem("@TaskApp:user");
 
-  const signin = (user: User) => { setUser(user); }
+    if (token && user) {
+      api.defaults.headers.authorization = `Bearer ${token}`;
+      return { token, user: JSON.parse(user) };
+    }
+    return null;
+  });
 
-  const signout = () => { setUser(null); }
+  const signin = useCallback(async ({ username, password }: SignInCredentials) => {
+    try {
+      const response = await api.post('/auth', { username, password });
 
-  const value = useMemo(() => ({
-    user, signin, signout, isAuthenticated: user !== null
-  }), [user])
+      const { token, user } = response.data;
+
+      localStorage.setItem('@TaskApp:token', token);
+      localStorage.setItem('@TaskApp:user', JSON.stringify(user));
+
+      api.defaults.headers.authorization = `Bearer ${token}`;
+
+      setUser({ token, user });
+    } catch (error) {
+      console.error('Signin failed:', error);
+    }
+  }, [setUser]);
+
+  const signout = useCallback(() => {
+    localStorage.removeItem('@TaskApp:token');
+    localStorage.removeItem('@TaskApp:user');
+    api.defaults.headers.authorization = '';
+    setUser(null);
+  }, [setUser]);
+
+  const updateUser = useCallback((newUser: User) => {
+    localStorage.setItem('@TaskApp:user', JSON.stringify(newUser));
+    setUser((prevUser) => prevUser && { ...prevUser, user: newUser });
+  }, [setUser]);
+
+  const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ user: user?.user, signin, signout, updateUser, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export const useAuth = (): AuthContextType => {
-  const authContext = useContext(AuthContext)
+export function useAuth(): AuthContextType {
+  const context = useContext(AuthContext);
 
-  if (!authContext)
-    throw new Error('useAuth fora do AuthProvider!')
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
 
-  return authContext
+  return context;
 }
